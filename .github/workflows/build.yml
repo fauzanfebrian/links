@@ -1,0 +1,24 @@
+name: Build and Deploy
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Install Dependencies
+              run: |
+                  npm install
+            - name: Build
+              run: |
+                  npm run build
+            - name: Push to gh-pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GH_TOKEN }}
+                  publish_dir: ./build
+                  publish_branch: gh-pages
